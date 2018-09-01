@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package>
-  <name>leap_motion_controller</name>
+  <name>bebop2_leap_motion</name>
   <version>0.0.0</version>
-  <description>ROS driver for Leap Motion Controller (https://www.leapmotion.com)</description>
+  <description>ROS driver for Leap Motion Controller of Bebop 2 (https://www.leapmotion.com)</description>
 
-  <maintainer email="karl.kruusamae@utexas.edu">Karl Kruusamäe</maintainer>
+  <maintainer email="ajaiswal60@yahoo.com">Aryan Jaiswal</maintainer>
 
   <license>3-clause BSD</license>
 
@@ -15,7 +15,7 @@
   <!-- <url type="website">http://wiki.ros.org/leap_motion_controller</url> -->
 
 
-  <author email="karl.kruusamae@utexas.edu">Karl Kruusamäe</author>
+  <author email="ajaiswal60@yahoo.com">Aryan Jaiswal</author>
 
 
   <!-- Use build_depend for packages you need at compile time: -->

@@ -18,5 +18,5 @@ https://community.leapmotion.com/t/error-in-leapd-malloc/4271/5.
 
 **Run:**
 
-`rosrun leap_motion_controller leap_motion`
+`rosrun bebop2_leap_motion leap_motion`
 

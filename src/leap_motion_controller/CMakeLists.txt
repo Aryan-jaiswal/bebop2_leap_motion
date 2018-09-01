@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(leap_motion_controller)
+project(bebop2_leap_motion)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED
@@ -62,11 +62,11 @@ include_directories(
 )
 
 ## Declare a C++ executable
-add_executable(leap_motion src/leap_motion.cpp)
+add_executable(bebop2_leap_motion src/bebop_lm_controller.cpp)
 
 ## Add cmake target dependencies of the executable
-add_dependencies(leap_motion leap_motion_controller_gencpp)
+add_dependencies(bebop2_leap_motion leap_motion_controller_gencpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(leap_motion ${catkin_LIBRARIES} $ENV{LEAP_SDK}/lib/x64/libLeap.so)
+target_link_libraries(bebop2_leap_motion ${catkin_LIBRARIES} $ENV{LEAP_SDK}/lib/x64/libLeap.so)
 
