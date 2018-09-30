@@ -23,7 +23,7 @@ class BebopListener : public Listener {
     ros::Publisher control;
 
   private:
-	const std::string fingerNames[5] = {"Thumb", "Index", "Middle", "Ring", "Pinky"};
+	const std::string fingerNames[4] = {"Thumb", "Index", "Middle", "Ring", "Pinky"};
 	const std::string boneNames[4] = {"Metacarpal", "Proximal", "Middle", "Distal"};
 	const std::string stateNames[4] = {"STATE_INVALID", "STATE_START", "STATE_UPDATE", "STATE_END"};
 };

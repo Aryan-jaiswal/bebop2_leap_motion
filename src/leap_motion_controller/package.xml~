@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>leap_motion_controller</name>
+  <name>bebop2_leap_motion</name>
   <version>0.0.0</version>
   <description>ROS driver for Leap Motion Controller of Bebop 2 (https://www.leapmotion.com)</description>
 
