@@ -2,7 +2,7 @@
 #include "leap_motion_controller/Set.h"
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/Empty.h>
-#define thres 0.35
+#define thres 0.46
 
 
 using namespace Leap;
@@ -89,6 +89,7 @@ void BebopListener::onFrame(const Controller& controller) {
   if(hands.count() >= 2 ){
     land.publish(emp);
     ROS_INFO("Successfully Landed!!");
+    sleep(10);
     //ROS_INFO("There are more than one hand! Don't mess with the controls!");
   }
   else if(hands.count() == 0)
@@ -104,39 +105,40 @@ void BebopListener::onFrame(const Controller& controller) {
       float roll = hand.palmNormal().roll();
       float pitch = hand.direction().pitch();
       float yaw = -hand.direction().yaw();      // Negating to comply with the right hand rule.
-      if(hand.pinchStrength()>0.8)
+      if(hand.pinchStrength()>0.85)
         {
-          
-          
           toff.publish(emp);
           ROS_INFO("Bebop Udd Gaya!!");
-          sleep(10);
+          sleep(5);
           //system( "rostopic pub /bebop/land std_msgs/Empty");
 
         }
+        std::cout<<roll<<std::endl;
+        std::cout<<pitch<<std::endl;
+        std::cout<<yaw<<std::endl;
       if(pitch > thres)
       {
-        sting.linear.x = 0.2;
-        ROS_INFO("+Ry ");
-        std::cout<<roll<<std::endl;
+        sting.linear.x = -0.2;
+        // ROS_INFO("+Ry ");
+        // std::cout<<roll<<std::endl;
       }
       else if(pitch < -thres )
       {
-        sting.linear.x = -0.2;
-        ROS_INFO("-Ry");
-        std::cout<<roll<<std::endl;
+        sting.linear.x = 0.2;
+        // ROS_INFO("-Ry");
+        // std::cout<<roll<<std::endl;
       }
       if(roll > thres)
       {
         sting.linear.y = 0.2;
-        ROS_INFO("+Px");
-        std::cout<<pitch<<std::endl;
+        // ROS_INFO("+Px");
+        // std::cout<<pitch<<std::endl;
       }
       else if(roll < -thres)
       {
         sting.linear.y = -0.2;
-        ROS_INFO("-Px");
-        std::cout<<pitch<<std::endl;
+        // ROS_INFO("-Px");
+        // std::cout<<pitch<<std::endl;
       }
 
     }
@@ -204,9 +206,9 @@ int main(int argc, char** argv) {
 
   //Add a Ros Publisher
   listener.pub_ = nh.advertise<leap_motion_controller::Set>("leap_motion_output", 10);
-  listener.toff = nh.advertise<std_msgs::Empty>("bebop/takeoff",1);
-  listener.land = nh.advertise<std_msgs::Empty>("bebop/land",1);
-  listener.control = nh.advertise<geometry_msgs::Twist>("bebop/cmd_vel",10);
+  listener.toff = nh.advertise<std_msgs::Empty>("/takeoff",1);
+  listener.land = nh.advertise<std_msgs::Empty>("/land",1);
+  listener.control = nh.advertise<geometry_msgs::Twist>("/cmd_vel",10);
 
   // Have the listener receive events from the controller
   controller.addListener(listener);
