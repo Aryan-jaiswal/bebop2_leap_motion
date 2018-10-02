@@ -2,6 +2,9 @@
 #include <iostream>
 #include <cstring>
 #include "ros/ros.h"
+#define thres 0.46
+#define max_h 235
+#define min_h 70
 
 using namespace Leap;
 class BebopListener : public Listener {

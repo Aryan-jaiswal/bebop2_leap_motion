@@ -2,7 +2,6 @@
 #include "leap_motion_controller/Set.h"
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/Empty.h>
-#define thres 0.46
 
 
 using namespace Leap;
@@ -88,8 +87,8 @@ void BebopListener::onFrame(const Controller& controller) {
 
   if(hands.count() >= 2 ){
     land.publish(emp);
-    ROS_INFO("Successfully Landed!!");
-    sleep(10);
+    ROS_INFO("The anamoly of multiple hands prevailed!");
+    sleep(15);
     //ROS_INFO("There are more than one hand! Don't mess with the controls!");
   }
   else if(hands.count() == 0)
@@ -98,10 +97,10 @@ void BebopListener::onFrame(const Controller& controller) {
     const Hand hand = hands[0];
     std::string handType = hand.isLeft()?"Left":"Right";
     if(handType == "Left")
-      ROS_INFO("Life without Left Hand wouldn't be right! ");
+      ROS_INFO("Life without Right Hand wouldn't be right! ");
     else
     {
-      // NOTE: Leap Motion roll-pitch-yaw is from the perspective of human, so I am mapping it so that roll is about x-, pitch about y-, and yaw about z-axis.
+      float height = hand.palmPosition().y;
       float roll = hand.palmNormal().roll();
       float pitch = hand.direction().pitch();
       float yaw = -hand.direction().yaw();      // Negating to comply with the right hand rule.
@@ -109,37 +108,56 @@ void BebopListener::onFrame(const Controller& controller) {
         {
           toff.publish(emp);
           ROS_INFO("Bebop Udd Gaya!!");
-          sleep(5);
+          sleep(3);
           //system( "rostopic pub /bebop/land std_msgs/Empty");
 
         }
         std::cout<<roll<<std::endl;
         std::cout<<pitch<<std::endl;
         std::cout<<yaw<<std::endl;
-      if(pitch > thres)
-      {
-        sting.linear.x = -0.2;
-        // ROS_INFO("+Ry ");
-        // std::cout<<roll<<std::endl;
-      }
-      else if(pitch < -thres )
-      {
-        sting.linear.x = 0.2;
-        // ROS_INFO("-Ry");
-        // std::cout<<roll<<std::endl;
-      }
-      if(roll > thres)
-      {
-        sting.linear.y = 0.2;
-        // ROS_INFO("+Px");
-        // std::cout<<pitch<<std::endl;
-      }
-      else if(roll < -thres)
-      {
-        sting.linear.y = -0.2;
-        // ROS_INFO("-Px");
-        // std::cout<<pitch<<std::endl;
-      }
+        std::cout<<"Height : "<<height<<std::endl;
+        if(height < max_h && height > min_h )
+        {
+          if(pitch > thres)
+          {
+            sting.linear.x = -0.2;
+            // ROS_INFO("+Ry ");
+            // std::cout<<roll<<std::endl;
+          }
+          else if(pitch < -thres )
+          {
+            sting.linear.x = 0.2;
+            // ROS_INFO("-Ry");
+            // std::cout<<roll<<std::endl;
+          }
+          if(roll > thres)
+          {
+            sting.linear.y = 0.2;
+            // ROS_INFO("+Px");
+            // std::cout<<pitch<<std::endl;
+          }
+          else if(roll < -thres)
+          {
+            sting.linear.y = -0.2;
+            // ROS_INFO("-Px");
+            // std::cout<<pitch<<std::endl;
+          }
+          if(yaw > thres*1.5)
+          {
+            sting.angular.z = 0.05;
+          }
+          else if(yaw < -thres*1.5)
+          {
+            sting.angular.z = -0.05;
+          }
+        }
+        else{
+          
+          if(height > max_h)
+            sting.linear.z = 0.08;
+          else if (height < min_h)
+            sting.linear.z = -0.08;
+        }
 
     }
 
@@ -173,7 +191,6 @@ void BebopListener::onFrame(const Controller& controller) {
        case Gesture::TYPE_SCREEN_TAP:
       {
         ScreenTapGesture screentap = gesture;
-
 
         break;
       }
