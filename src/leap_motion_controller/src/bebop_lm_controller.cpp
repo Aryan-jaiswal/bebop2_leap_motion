@@ -142,21 +142,21 @@ void BebopListener::onFrame(const Controller& controller) {
             // ROS_INFO("-Px");
             // std::cout<<pitch<<std::endl;
           }
-          if(yaw > thres*1.5)
+          if(yaw > thres*1.35)
           {
-            sting.angular.z = 0.05;
+            sting.angular.z = 0.5;
           }
-          else if(yaw < -thres*1.5)
+          else if(yaw < -thres*1.35)
           {
-            sting.angular.z = -0.05;
+            sting.angular.z = -0.5;
           }
         }
         else{
           
           if(height > max_h)
-            sting.linear.z = 0.08;
+            sting.linear.z = 0.16;
           else if (height < min_h)
-            sting.linear.z = -0.08;
+            sting.linear.z = -0.16;
         }
 
     }
